@@ -1,5 +1,7 @@
 .nox
-
+chromedriver
+*.zip
+*.deb
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
