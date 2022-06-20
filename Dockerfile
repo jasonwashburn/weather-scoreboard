@@ -4,11 +4,31 @@ USER root
 
 WORKDIR /tmp
 
-COPY scripts/download_chromedriver.sh /tmp/download_chromedriver.sh
+RUN apt update && apt-get install -y wget xvfb unzip
 
-RUN apt update \
-    && apt install unzip \
-    && sh /tmp/download_chromedriver.sh
+# Set up the Chrome PPA
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+
+# Update the package list and install chrome
+RUN apt-get update -y
+RUN apt-get install -y google-chrome-stable
+
+# Download the Chrome Driver
+RUN export LATEST_RELEASE=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) \
+    && wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/$LATEST_RELEASE/chromedriver_linux64.zip
+
+# Unzip the Chrome Driver into /usr/local/bin directory
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+
+# Set display port as an environment variable
+ENV DISPLAY=:99
+
+RUN chmod -R 777 /usr/local/bin
+
+# Put Chromedriver into the PATH
+ENV PATH /usr/local/bin:$PATH
+
 
 USER airflow 
 
