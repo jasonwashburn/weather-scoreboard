@@ -2,6 +2,8 @@ selenium
 bs4
 pendulum
 pandas
+psycopg2-binary
+sqlalchemy
 
 black
 isort
