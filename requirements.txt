@@ -1,5 +1,7 @@
 selenium
-webdriver-manager
+bs4
+pendulum
+pandas
 
 black
 isort
