@@ -1,1 +1,7 @@
 selenium
+webdriver-manager
+
+black
+isort
+flake8
+flake8-bandit
