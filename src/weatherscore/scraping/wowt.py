@@ -1,4 +1,5 @@
-from typing import Union, Dict, List
+from typing import Dict, List, Union
+from urllib.parse import quote
 
 import pandas as pd
 import pendulum
@@ -78,7 +79,9 @@ def main():
 
 
 def get_db_conn():
-    conn_string = "postgresql://airflow:@1rfl0w@postgres/scrapes"
+    username = "airflow"
+    password = quote("@1rfl0w")
+    conn_string = f"postgresql://{username}:{password}@postgres/scrapes"
 
     db = create_engine(conn_string)
     conn = db.connect()
@@ -90,12 +93,13 @@ def write_df_to_db(df: pd.DataFrame, table: str, conn):
 
 
 def read_from_db(conn, table: str):
-    cursor = conn.cursor()
-
     sql1 = f"""select * from {table};"""
-    cursor.execute(sql1)
-    for i in cursor.fetchall():
+    result = conn.execute(sql1)
+    for i in result:
         print(i)
+
+    df = pd.read_sql_table(table_name=table, con=conn)
+    print(df)
 
 
 if __name__ == "__main__":
