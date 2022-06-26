@@ -81,7 +81,7 @@ def main():
 def get_db_conn():
     username = "airflow"
     password = quote("@1rfl0w")
-    conn_string = f"postgresql://{username}:{password}@postgres/scrapes"
+    conn_string = f"postgresql://{username}:{password}@data-db/data"
 
     db = create_engine(conn_string)
     conn = db.connect()

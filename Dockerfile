@@ -36,4 +36,5 @@ COPY --chown=airflow:root requirements.txt /tmp/requirements.txt
 
 RUN pip install -r /tmp/requirements.txt
 
-COPY --chown=airflow:root src/weatherscore /opt/airflow/dags/
+COPY --chown=airflow:root src/plugins /opt/airflow/plugins
+COPY --chown=airflow:root src/dags /opt/airflow/dags
