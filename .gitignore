@@ -1,3 +1,4 @@
+logs/
 .nox
 chromedriver
 *.zip
